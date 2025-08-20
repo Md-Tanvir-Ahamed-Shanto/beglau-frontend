@@ -6,7 +6,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Helmet } from "react-helmet"; // ✅ react-helmet import
+import { Helmet } from "react-helmet";
 
 // Components
 import Header from "./components/Header";
