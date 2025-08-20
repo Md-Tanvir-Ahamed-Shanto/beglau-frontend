@@ -121,7 +121,7 @@ const CounselorManagement = () => {
 
   const handleGenerateLink = () => {
     const randomId = Math.random().toString(36).substr(2, 9);
-    const newLink = `https://beglbd.com/upload/${randomId}`;
+    const newLink = `https://begl.com.au/upload/${randomId}`;
     setGeneratedLink(newLink);
     console.log("Generated upload link:", newLink);
   };
