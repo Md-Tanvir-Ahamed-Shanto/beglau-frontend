@@ -42,14 +42,14 @@ const BlogPost = () => {
       {/* SEO Metadata */}
       <Helmet>
         <title>
-          {blogPost?.metaTitle || blogPost?.title || "BEGL BD - Blog Post"}
+          {blogPost?.metaTitle || blogPost?.title || "BEGL AU - Blog Post"}
         </title>
         <meta
           name="description"
           content={
             blogPost?.metaDescription ||
             blogPost?.excerpt ||
-            "বিদেশে পড়াশোনার জন্য ১০০% ফ্রি পরামর্শ। অস্ট্রেলিয়া, কানাডা, যুক্তরাজ্য ও অন্যান্য দেশে উচ্চশিক্ষার সুযোগ।"
+            "Get 100% free consultation for studying abroad. Opportunities for higher education in Australia, Canada, the UK, and more."
           }
         />
         <meta
@@ -60,12 +60,12 @@ const BlogPost = () => {
             "study abroad, education, visa"
           }
         />
-        <meta name="author" content={blogPost?.author || "BEGL BD"} />
+        <meta name="author" content={blogPost?.author || "BEGL AU"} />
         {/* Open Graph Tags */}
         <meta
           property="og:title"
           content={
-            blogPost?.metaTitle || blogPost?.title || "BEGL BD - Blog Post"
+            blogPost?.metaTitle || blogPost?.title || "BEGL AU - Blog Post"
           }
         />
         <meta
@@ -73,7 +73,7 @@ const BlogPost = () => {
           content={
             blogPost?.metaDescription ||
             blogPost?.excerpt ||
-            "বিদেশে পড়াশোনার জন্য ১০০% ফ্রি পরামর্শ। অস্ট্রেলিয়া, কানাডা, যুক্তরাজ্য ও অন্যান্য দেশে উচ্চশিক্ষার সুযোগ।"
+            "Get 100% free consultation for studying abroad. Opportunities for higher education in Australia, Canada, the UK, and more."
           }
         />
         <meta property="og:type" content="article" />
@@ -83,12 +83,12 @@ const BlogPost = () => {
         />
         {/* Twitter Tags */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@BEGLBD" />{" "}
+        <meta name="twitter:site" content="@BEGLAU" />{" "}
         {/* Replace with your actual Twitter handle */}
         <meta
           name="twitter:title"
           content={
-            blogPost?.metaTitle || blogPost?.title || "BEGL BD - Blog Post"
+            blogPost?.metaTitle || blogPost?.title || "BEGL AU - Blog Post"
           }
         />
         <meta
@@ -96,7 +96,7 @@ const BlogPost = () => {
           content={
             blogPost?.metaDescription ||
             blogPost?.excerpt ||
-            "বিদেশে পড়াশোনার জন্য ১০০% ফ্রি পরামর্শ। অস্ট্রেলিয়া, কানাডা, যুক্তরাজ্য ও অন্যান্য দেশে উচ্চশিক্ষার সুযোগ।"
+            "Get 100% free consultation for studying abroad. Opportunities for higher education in Australia, Canada, the UK, and more."
           }
         />
       </Helmet>
@@ -108,7 +108,7 @@ const BlogPost = () => {
               className="mb-6 border-brand-blue text-brand-blue hover:bg-brand-blue hover:text-white"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
-              ব্লগে ফিরে যান
+              Back to Blog
             </Button>
           </Link>
         </div>
@@ -158,10 +158,6 @@ const BlogPost = () => {
                   <Calendar size={16} />
                   <span>{blogPost.date || blogPost.publishDate}</span>
                 </div>
-                <div className="flex items-center space-x-1 text-sm text-gray-600">
-                  <Clock size={16} />
-                  <span>{blogPost.readTime || "৫ মিনিট"}</span>
-                </div>
               </div>
 
               {/* Content */}
@@ -173,9 +169,7 @@ const BlogPost = () => {
               {/* Share Buttons */}
               <div className="mt-8 pt-6 border-t border-gray-200">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-bold text-gray-800">
-                    শেয়ার করুন
-                  </h3>
+                  <h3 className="text-lg font-bold text-gray-800">Share</h3>
                   <div className="flex items-center space-x-3">
                     <Button
                       size="sm"
