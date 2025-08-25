@@ -186,8 +186,8 @@ const Index = () => {
     // console.log("form data------>"  ,finaldata)
     if (!formData.name || !formData.phone || !formData.country) {
       toast({
-        title: "সব ফিল্ড পূরণ করুন",
-        description: "অনুগ্রহ করে সব তথ্য দিন",
+        title: "All fields are required",
+        description: "Please fill in all the information",
         variant: "destructive",
       });
       return;
@@ -201,7 +201,7 @@ const Index = () => {
         const data = res.data;
         refetch();
         // console.log(data)
-        alert("ধন্যবাদ! , আমরা শীঘ্রই আপনার সাথে যোগাযোগ করব।");
+        alert("Thank you! We will contact you soon.");
       })
       .catch((error) => {
         console.error("Error from sending lead data to database:", error);
@@ -265,9 +265,9 @@ const Index = () => {
                   lineHeight: "1.1",
                 }}
               >
-                {heroSectionData[0]?.title || "বিদেশে পড়াশোনা"}
+                {heroSectionData[0]?.title || "Study Abroad"}
                 <span className="bg-gradient-to-r from-purple-600 via-blue-600 to-green-500 bg-clip-text text-transparent block mt-2">
-                  {heroSectionData[0]?.subtitle || " এখন আরও সহজ!"}
+                  {heroSectionData[0]?.subtitle || " Now Easier Than Ever!"}
                 </span>
               </h1>
               <p
@@ -277,18 +277,18 @@ const Index = () => {
                 }}
               >
                 {heroSectionData[0]?.description ||
-                  " অস্ট্রেলিয়া, যুক্তরাজ্য, মালয়েশিয়া, নিউজিল্যান্ডে ভর্তি ও ভিসা সাপোর্ট"}
+                  " Australia, UK, Malaysia, New Zealand admission and visa support"}
               </p>
               <p className="text-base sm:text-lg text-gray-600 mb-8 sm:mb-10 leading-relaxed">
                 {adminData[0]?.tagline ||
-                  " পান ১০০% ফ্রি পরামর্শ ও সম্পূর্ণ সাপোর্ট"}
+                  " Get 100% Free Consultation and Complete Support"}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Button
                   size="lg"
                   className="w-full sm:w-auto bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-lg sm:text-xl px-8 sm:px-10 py-4 sm:py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                 >
-                  {heroSectionData[0].primaryButton || " ফ্রি পরামর্শ নিন"}
+                  {heroSectionData[0].primaryButton || " Free Consultation"}
                 </Button>
                 <Link to="/about" className="w-full sm:w-auto">
                   <Button
@@ -296,7 +296,7 @@ const Index = () => {
                     size="lg"
                     className="w-full text-lg sm:text-xl px-8 sm:px-10 py-4 sm:py-6 rounded-full border-2 border-purple-600 text-purple-600 hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 hover:text-white hover:border-transparent transition-all duration-300"
                   >
-                    {heroSectionData[0].secondaryButton || "আরও জানুন"}
+                    {heroSectionData[0].secondaryButton || "Learn More"}
                   </Button>
                 </Link>
               </div>
@@ -308,22 +308,22 @@ const Index = () => {
               <CardContent className="p-6 sm:p-8">
                 <div className="text-center mb-6">
                   <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">
-                    ফ্রি কনসাল্টেশনের জন্য যোগাযোগ করুন
+                    Contact Us for Free Consultation
                   </h3>
                   <p className="text-gray-600">
-                    মাত্র ৩০ সেকেন্ডে ফর্ম পূরণ করুন
+                    Fill out the form in just 30 seconds
                   </p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <Label htmlFor="name" className="text-gray-700 font-medium">
-                      আপনার নাম
+                      Your Name
                     </Label>
                     <Input
                       id="name"
                       type="text"
-                      placeholder="পূর্ণ নাম লিখুন"
+                      placeholder="Enter your full name"
                       value={formData.name}
                       onChange={(e) =>
                         setFormData({
@@ -340,12 +340,12 @@ const Index = () => {
                       htmlFor="phone"
                       className="text-gray-700 font-medium"
                     >
-                      মোবাইল নাম্বার
+                      Mobile Number
                     </Label>
                     <Input
                       id="phone"
                       type="tel"
-                      placeholder="+৮৮০ ১৭xxxxxxxx"
+                      placeholder="+880 17xxxxxxxx"
                       value={formData.phone}
                       onChange={(e) =>
                         setFormData({
@@ -362,7 +362,7 @@ const Index = () => {
                       htmlFor="email"
                       className="text-gray-700 font-medium"
                     >
-                      ইমেইল (ঐচ্ছিক)
+                      Email (Optional)
                     </Label>
                     <Input
                       id="email"
@@ -384,7 +384,7 @@ const Index = () => {
                       htmlFor="country"
                       className="text-gray-700 font-medium"
                     >
-                      যেতে চান কোন দেশে?
+                      Which country do you want to go to?
                     </Label>
                     <Select
                       value={formData.country}
@@ -396,14 +396,14 @@ const Index = () => {
                       }
                     >
                       <SelectTrigger className="mt-2 text-lg py-3 border-2 focus:border-purple-500">
-                        <SelectValue placeholder="দেশ নির্বাচন করুন" />
+                        <SelectValue placeholder="Select Country" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="australia">অস্ট্রেলিয়া</SelectItem>
-                        <SelectItem value="uk">যুক্তরাজ্য</SelectItem>
-                        <SelectItem value="malaysia">মালয়েশিয়া</SelectItem>
-                        <SelectItem value="newzealand">নিউজিল্যান্ড</SelectItem>
-                        <SelectItem value="other">অন্যান্য</SelectItem>
+                        <SelectItem value="australia">Australia</SelectItem>
+                        <SelectItem value="uk">UK</SelectItem>
+                        <SelectItem value="malaysia">Malaysia</SelectItem>
+                        <SelectItem value="newzealand">New Zealand</SelectItem>
+                        <SelectItem value="other">Other</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -412,12 +412,12 @@ const Index = () => {
                     type="submit"
                     className="w-full bg-gradient-to-r from-green-500 to-blue-600 hover:from-green-600 hover:to-blue-700 text-lg py-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                   >
-                    আবেদন জমা দিন
+                    Submit Application
                   </Button>
                 </form>
 
                 <p className="text-center text-sm text-gray-500 mt-4">
-                  ✓ সম্পূর্ণ ফ্রি সেবা ✓ কোন লুকানো খরচ নেই
+                  ✓ Completely Free Service ✓ No Hidden Costs
                 </p>
               </CardContent>
             </Card>
@@ -447,10 +447,10 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-purple-600 py-3 via-blue-600 to-green-500 bg-clip-text text-transparent mb-6">
-              আমাদের সেবাসমূহ
+              Our Services
             </h2>
             <p className="text-xl text-gray-600">
-              আপনার সফল ভবিষ্যতের জন্য সম্পূর্ণ সাপোর্ট
+              Complete support for your successful future
             </p>
           </div>
 
@@ -496,10 +496,10 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 py-4 to-green-500 bg-clip-text text-transparent mb-6">
-              আমাদের অংশীদার বিশ্ববিদ্যালয়সমূহ
+              Our Partner Universities
             </h2>
             <p className="text-xl text-gray-600">
-              বিশ্বের শীর্ষ বিশ্ববিদ্যালয়গুলোর সাথে আমাদের দীর্ঘমেয়াদী সম্পর্ক
+              Our long-term relationships with the world's top universities
             </p>
           </div>
 
@@ -561,10 +561,10 @@ const Index = () => {
         <div className="container mx-auto px-4 relative">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
-              আমাদের সাফল্যের পরিসংখ্যান
+              Our Success Statistics
             </h2>
             <p className="text-xl opacity-90">
-              যারা আমাদের সাথে তাদের স্বপ্ন পূরণ করেছেন
+              Those who have fulfilled their dreams with us
             </p>
           </div>
 
@@ -579,9 +579,9 @@ const Index = () => {
                 <div className="text-4xl sm:text-5xl font-bold mb-2 bg-gradient-to-r from-yellow-200 to-orange-200 bg-clip-text text-transparent">
                   {counters.totalInterested.toLocaleString()}+
                 </div>
-                <h3 className="text-xl font-bold mb-2">আগ্রহী শিক্ষার্থী</h3>
+                <h3 className="text-xl font-bold mb-2">Interested Students</h3>
                 <p className="text-white/80 text-sm">
-                  যারা আমাদের সাথে যোগাযোগ করেছেন
+                  Those who have contacted us
                 </p>
               </CardContent>
             </Card>
@@ -596,9 +596,9 @@ const Index = () => {
                 <div className="text-4xl sm:text-5xl font-bold mb-2 bg-gradient-to-r from-green-200 to-blue-200 bg-clip-text text-transparent">
                   {counters.filesOpened.toLocaleString()}+
                 </div>
-                <h3 className="text-xl font-bold mb-2">ফাইল ওপেন</h3>
+                <h3 className="text-xl font-bold mb-2">Files Opened</h3>
                 <p className="text-white/80 text-sm">
-                  যাদের আবেদন প্রক্রিয়া শুরু হয়েছে
+                  Those whose application process has started
                 </p>
               </CardContent>
             </Card>
@@ -613,9 +613,11 @@ const Index = () => {
                 <div className="text-4xl sm:text-5xl font-bold mb-2 bg-gradient-to-r from-pink-200 to-purple-200 bg-clip-text text-transparent">
                   {counters.successfullyDeparted.toLocaleString()}+
                 </div>
-                <h3 className="text-xl font-bold mb-2">সফল বিদায়</h3>
+                <h3 className="text-xl font-bold mb-2">
+                  Successful Departures
+                </h3>
                 <p className="text-white/80 text-sm">
-                  যারা সফলভাবে বিদেশে পৌঁছেছেন
+                  Those who have successfully reached abroad
                 </p>
               </CardContent>
             </Card>
@@ -625,7 +627,7 @@ const Index = () => {
             <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 border border-white/20">
               <CheckCircle className="text-green-300" size={20} />
               <span className="text-white/90 font-medium">
-                ৯৫% সাফল্যের হার ভিসা অনুমোদনে
+                95% success rate in visa approval
               </span>
             </div>
           </div>
@@ -637,9 +639,11 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-purple-600 py-4 via-blue-600 to-green-500 bg-clip-text text-transparent mb-6">
-              প্রায়শই জিজ্ঞাসিত প্রশ্ন
+              Frequently Asked Questions
             </h2>
-            <p className="text-xl text-gray-600">আপনার সাধারণ প্রশ্নের উত্তর</p>
+            <p className="text-xl text-gray-600">
+              Answers to your common questions
+            </p>
           </div>
 
           <div className="max-w-4xl mx-auto">
