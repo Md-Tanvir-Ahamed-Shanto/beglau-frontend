@@ -61,7 +61,7 @@ const BlogManagement = () => {
   };
 
   const handleDeletePost = async (postId: string) => {
-    if (confirm("আপনি কি নিশ্চিত যে এই পোস্টটি মুছে দিতে চান?")) {
+    if (confirm("Are You Sure You Want to Delete This Post?")) {
       try {
         await axios.patch(
           `${import.meta.env.VITE_BASE_URL}/delete_blog_data/${postId}`
@@ -107,7 +107,7 @@ const BlogManagement = () => {
   };
 
   const handleDeleteCategory = async (id: string) => {
-    if (confirm("আপনি কি নিশ্চিত যে এই ক্যাটাগরিটি মুছে দিতে চান?")) {
+    if (confirm("Are You Sure You Want to Delete This Category?")) {
       try {
         await axios.patch(
           `${import.meta.env.VITE_BASE_URL}/delete_category_data/${id}`
@@ -135,11 +135,11 @@ const BlogManagement = () => {
   const getStatusText = (status: string) => {
     switch (status) {
       case "published":
-        return "প্রকাশিত";
+        return "Published";
       case "draft":
-        return "খসড়া";
+        return "Draft";
       case "archived":
-        return "সংরক্ষিত";
+        return "Archived";
       default:
         return status;
     }
@@ -161,11 +161,9 @@ const BlogManagement = () => {
           {/* Header */}
           <div className="mb-6">
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
-              ব্লগ ম্যানেজমেন্ট
+              Blog Management
             </h1>
-            <p className="text-gray-600">
-              ব্লগ পোস্ট এবং ক্যাটাগরি পরিচালনা করুন
-            </p>
+            <p className="text-gray-600">Manage blog posts and categories</p>
           </div>
 
           {/* Header Actions */}
@@ -175,7 +173,7 @@ const BlogManagement = () => {
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
                 <input
                   type="text"
-                  placeholder="পোস্ট খুঁজুন..."
+                  placeholder="Search posts..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10 pr-4 py-2 w-full sm:w-64 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
@@ -186,10 +184,10 @@ const BlogManagement = () => {
                 onChange={(e) => setStatusFilter(e.target.value)}
                 className="px-4 py-2 w-full sm:w-auto border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
               >
-                <option value="all">সব স্ট্যাটাস</option>
-                <option value="published">প্রকাশিত</option>
-                <option value="draft">খসড়া</option>
-                <option value="archived">সংরক্ষিত</option>
+                <option value="all">All Status</option>
+                <option value="published">Published</option>
+                <option value="draft">Draft</option>
+                <option value="archived">Archived</option>
               </select>
             </div>
 
@@ -200,14 +198,14 @@ const BlogManagement = () => {
                 className="w-full sm:w-auto"
               >
                 <Plus className="w-4 h-4 mr-2" />
-                ক্যাটাগরি ম্যানেজ
+                Manage Categories
               </Button>
               <Button
                 onClick={handleCreatePost}
                 className="bg-primary hover:bg-primary/90 w-full sm:w-auto"
               >
                 <Plus className="w-4 h-4 mr-2" />
-                নতুন পোস্ট
+                New Post
               </Button>
             </div>
           </div>
@@ -215,7 +213,7 @@ const BlogManagement = () => {
           {/* Blog Posts List */}
           <Card>
             <CardHeader>
-              <CardTitle>ব্লগ পোস্ট তালিকা</CardTitle>
+              <CardTitle>Blog Posts List</CardTitle>
             </CardHeader>
             <CardContent>
               {isMobile ? (
@@ -246,14 +244,14 @@ const BlogManagement = () => {
                           </span>
                           {post.featured && (
                             <span className="px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded-full">
-                              বিশেষ
+                              Featured
                             </span>
                           )}
                         </div>
 
                         <div className="flex justify-between items-center text-sm text-gray-500">
                           <span>{post.publishDate}</span>
-                          <span>{post.views?.toLocaleString() || 0} ভিউ</span>
+                          <span>{post.views?.toLocaleString() || 0} Views</span>
                         </div>
 
                         <div className="flex gap-2">
@@ -264,7 +262,7 @@ const BlogManagement = () => {
                             className="flex-1"
                           >
                             <Edit className="w-3 h-3 mr-1" />
-                            সম্পাদনা
+                            Edit
                           </Button>
                           <Button
                             size="sm"
@@ -286,22 +284,22 @@ const BlogManagement = () => {
                     <thead>
                       <tr className="border-b border-gray-200">
                         <th className="text-left py-3 px-2 sm:px-4 font-medium text-gray-600 text-sm">
-                          শিরোনাম
+                          Title
                         </th>
                         <th className="text-left py-3 px-2 sm:px-4 font-medium text-gray-600 text-sm hidden md:table-cell">
-                          ক্যাটাগরি
+                          Category
                         </th>
                         <th className="text-left py-3 px-2 sm:px-4 font-medium text-gray-600 text-sm">
-                          স্ট্যাটাস
+                          Status
                         </th>
                         <th className="text-left py-3 px-2 sm:px-4 font-medium text-gray-600 text-sm hidden lg:table-cell">
-                          প্রকাশের তারিখ
+                          Publish Date
                         </th>
                         <th className="text-left py-3 px-2 sm:px-4 font-medium text-gray-600 text-sm hidden lg:table-cell">
-                          ভিউ
+                          Views
                         </th>
                         <th className="text-left py-3 px-2 sm:px-4 font-medium text-gray-600 text-sm">
-                          অ্যাকশন
+                          Actions
                         </th>
                       </tr>
                     </thead>
@@ -321,7 +319,7 @@ const BlogManagement = () => {
                               </p>
                               {post.featured && (
                                 <span className="inline-block mt-1 px-2 py-1 text-xs bg-purple-100 text-purple-700 rounded-full">
-                                  বিশেষ
+                                  Featured
                                 </span>
                               )}
                               {/* Show category on mobile */}
