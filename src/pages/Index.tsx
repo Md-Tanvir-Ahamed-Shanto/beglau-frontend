@@ -288,7 +288,7 @@ const Index = () => {
                   size="lg"
                   className="w-full sm:w-auto bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-lg sm:text-xl px-8 sm:px-10 py-4 sm:py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
                 >
-                  {heroSectionData[0].primaryButton || " Free Consultation"}
+                  {heroSectionData[0]?.primaryButton || " Free Consultation"}
                 </Button>
                 <Link to="/about" className="w-full sm:w-auto">
                   <Button
@@ -296,7 +296,7 @@ const Index = () => {
                     size="lg"
                     className="w-full text-lg sm:text-xl px-8 sm:px-10 py-4 sm:py-6 rounded-full border-2 border-purple-600 text-purple-600 hover:bg-gradient-to-r hover:from-purple-600 hover:to-blue-600 hover:text-white hover:border-transparent transition-all duration-300"
                   >
-                    {heroSectionData[0].secondaryButton || "Learn More"}
+                    {heroSectionData[0]?.secondaryButton || "Learn More"}
                   </Button>
                 </Link>
               </div>
