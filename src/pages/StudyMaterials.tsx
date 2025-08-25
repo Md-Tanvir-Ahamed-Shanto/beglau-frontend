@@ -99,11 +99,13 @@ const StudyMaterials = () => {
           <div className="max-w-4xl mx-auto text-center">
             <div className="flex items-center justify-center mb-6">
               <BookOpen className="w-12 h-12 mr-4" />
-              <h1 className="text-4xl md:text-5xl font-bold">সহায়ক সামগ্রী</h1>
+              <h1 className="text-4xl md:text-5xl font-bold">
+                Study Materials
+              </h1>
             </div>
             <p className="text-xl md:text-2xl mb-8 leading-relaxed">
-              বিদেশে পড়াশোনার জন্য প্রয়োজনীয় সকল গুরুত্বপূর্ণ ডকুমেন্ট এবং
-              গাইডলাইন এক জায়গায়
+              All essential documents and guidelines required for studying
+              abroad in one place
             </p>
           </div>
         </div>
@@ -158,7 +160,7 @@ const StudyMaterials = () => {
                       onClick={() => handleDownload(material)}
                     >
                       <Download className="w-4 h-4 mr-2" />
-                      ডাউনলোড
+                      Download
                     </Button>
                   </div>
                 </CardContent>
@@ -166,12 +168,12 @@ const StudyMaterials = () => {
             ))}
           </div>
 
-          {/* Load More Button */}
+          {/* Load More Button
           <div className="text-center mt-12">
             <Button variant="outline" size="lg" className="px-8">
-              আরো দেখুন
+              Load More
             </Button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
