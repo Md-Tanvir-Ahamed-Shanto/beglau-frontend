@@ -26,12 +26,12 @@ const Header = () => {
   });
 
   const navItems = [
-    { label: "হোম", path: "/" },
-    { label: "আমাদের সম্পর্কে", path: "/about" },
-    { label: "বিদেশে পড়াশোনার প্রক্রিয়া", path: "/study-abroad-process" },
-    { label: "সহায়ক সামগ্রী", path: "/study-materials" },
-    { label: "ব্লগ", path: "/blog" },
-    { label: "যোগাযোগ", path: "/contact" },
+    { label: "Home", path: "/" },
+    { label: "About Us", path: "/about" },
+    { label: "Study Abroad Process", path: "/study-abroad-process" },
+    { label: "Study Materials", path: "/study-materials" },
+    { label: "Blog", path: "/blog" },
+    { label: "Contact", path: "/contact" },
   ];
 
   const toggleMobileMenu = () => {
@@ -59,7 +59,7 @@ const Header = () => {
               )}
             </div>
             <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-green-500 bg-clip-text text-transparent">
-              BEGL BD
+              BEGL AU
             </h1>
           </Link>
 
@@ -85,7 +85,7 @@ const Header = () => {
                 variant="outline"
                 className="hidden md:flex border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white"
               >
-                ফ্রি কনসাল্টেশন
+                Free Consultation
               </Button>
             </Link>
             <Button
@@ -121,7 +121,7 @@ const Header = () => {
                   variant="outline"
                   className="w-full mt-3 border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white"
                 >
-                  ফ্রি কনসাল্টেশন
+                  Free Consultation
                 </Button>
               </Link>
             </nav>

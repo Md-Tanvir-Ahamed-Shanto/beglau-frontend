@@ -91,11 +91,11 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-lg font-bold mb-4">দ্রুত লিংক</h4>
+            <h4 className="text-lg font-bold mb-4">Quick Links</h4>
             <ul className="space-y-2 text-gray-300">
               <li>
                 <Link to="/" className="hover:text-white transition-colors">
-                  হোম
+                  Home
                 </Link>
               </li>
               <li>
@@ -103,7 +103,7 @@ const Footer = () => {
                   to="/about"
                   className="hover:text-white transition-colors"
                 >
-                  আমাদের সম্পর্কে
+                  About Us
                 </Link>
               </li>
               <li>
@@ -111,7 +111,7 @@ const Footer = () => {
                   to="/study-abroad-process"
                   className="hover:text-white transition-colors"
                 >
-                  বিদেশে পড়াশোনার প্রক্রিয়া
+                  Study Abroad Process
                 </Link>
               </li>
               <li>
@@ -119,7 +119,7 @@ const Footer = () => {
                   to="/contact"
                   className="hover:text-white transition-colors"
                 >
-                  যোগাযোগ
+                  Contact
                 </Link>
               </li>
             </ul>
@@ -127,24 +127,26 @@ const Footer = () => {
 
           {/* Services */}
           <div>
-            <h4 className="text-lg font-bold mb-4">সেবাসমূহ</h4>
+            <h4 className="text-lg font-bold mb-4">Services</h4>
             <ul className="space-y-2 text-gray-300">
-              <li>• ফ্রি কনসাল্টেশন</li>
-              <li>• ভিসা প্রসেসিং</li>
-              <li>• ইউনিভার্সিটি অ্যাপ্লিকেশন</li>
-              <li>• স্কলারশিপ গাইডেন্স</li>
-              <li>• অ্যাকমোডেশন সাপোর্ট</li>
+              <li>• Free Consultation</li>
+              <li>• Visa Processing</li>
+              <li>• University Application</li>
+              <li>• Scholarship Guidance</li>
+              <li>• Accommodation Support</li>
             </ul>
           </div>
 
           {/* Contact */}
           <div>
-            <h4 className="text-lg font-bold mb-4">যোগাযোগ</h4>
+            <h4 className="text-lg font-bold mb-4">Contact</h4>
             <div className="space-y-2 text-gray-300">
               <p>📞 {footerData?.contactPhone || "01768037870"}</p>
               <p>✉️ {footerData?.contactEmail || "info@begleducation.com"}</p>
-              <p>📍 {footerData?.officeAddress || " গুলশান, ঢাকা, বাংলাদেশ"}</p>
-              <p>🕒 রবি - বৃহস্পতি: ৯:০০ - ৬:০০</p>
+              <p>
+                📍 {footerData?.officeAddress || " Gulshan, Dhaka, Bangladesh"}
+              </p>
+              <p>🕒 Sunday - Thursday: 9:00 AM - 6:00 PM</p>
             </div>
           </div>
         </div>
@@ -152,12 +154,12 @@ const Footer = () => {
         {/* Footer Bottom */}
         <div className="border-t border-gray-700 pt-8 text-center">
           <p className="text-gray-300 text-lg font-medium">
-            আপনার স্বপ্ন পূরণে আমরা আছি পাশে
+            Your dreams are our priority
           </p>
           <p className="text-gray-400 text-sm mt-2">
             ©{" "}
             {footerData?.copyrightText ||
-              "২০২৪ BEGL BD। সর্বস্বত্ব সংরক্ষিত। | Design & Developed by Ahasanul Haque Khairul "}
+              "2024 BEGL BD. All rights reserved. | Design & Developed by Ahasanul Haque Khairul "}
           </p>
         </div>
       </div>

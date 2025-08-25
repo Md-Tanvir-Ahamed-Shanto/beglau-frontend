@@ -4,7 +4,6 @@ import { Loader2 } from "lucide-react"; // optional spinner icon
 const Loading = () => {
   return (
     <div className="w-full h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-50 via-blue-50 to-green-50">
-      
       {/* Spinner */}
       <div className="flex items-center justify-center mb-6 animate-spin">
         <Loader2 className="w-12 h-12 text-purple-600" />
