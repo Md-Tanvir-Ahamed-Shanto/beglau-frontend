@@ -34,9 +34,12 @@ const Blog = () => {
       });
   };
 
-  const categories = ["সব", ...new Set(blogPosts.map((post) => post.category))];
+  const categories = [
+    "All",
+    ...new Set(blogPosts.map((post) => post.category)),
+  ];
   const filteredPosts =
-    selectedCategory === "সব"
+    selectedCategory === "All"
       ? blogPosts
       : blogPosts.filter((post) => post.category === selectedCategory);
 
@@ -49,11 +52,11 @@ const Blog = () => {
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="text-center mb-12">
             <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-white mb-6">
-              আমাদের ব্লগ
+              Our Blog
             </h1>
             <p className="text-lg sm:text-xl text-white/90 leading-relaxed max-w-2xl mx-auto px-2">
-              বিদেশে উচ্চশিক্ষা সম্পর্কে সর্বশেষ তথ্য, টিপস এবং গাইডলাইন পান
-              আমাদের ব্লগ থেকে।
+              Get the latest information, tips, and guidelines on studying
+              abroad from our blog.
             </p>
           </div>
         </div>
@@ -102,10 +105,6 @@ const Blog = () => {
                     <span className="bg-brand-green/10 text-brand-green px-2 py-1 rounded-full text-xs font-medium">
                       {post.category}
                     </span>
-                    <div className="flex items-center space-x-1 text-xs text-gray-500">
-                      <Clock size={12} />
-                      <span>{post.readTime || "৫ মিনিট"}</span>
-                    </div>
                   </div>
                   <h3 className="text-lg font-bold text-gray-800 mb-3 leading-tight hover:text-brand-blue transition-colors">
                     {post.title}
@@ -131,7 +130,7 @@ const Blog = () => {
                         variant="outline"
                         className="border-brand-blue text-brand-blue hover:bg-brand-blue hover:text-white"
                       >
-                        পড়ুন
+                        Read
                       </Button>
                     </Link>
                   </div>
