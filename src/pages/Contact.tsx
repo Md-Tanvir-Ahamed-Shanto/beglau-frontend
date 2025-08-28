@@ -4,6 +4,7 @@ import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import axios from "axios";
 import Loading from "@/components/Loading";
+import ScrollToTop from "@/hooks/ScrollToTop";
 
 type ContactDoc = {
   _id?: string;
@@ -56,6 +57,7 @@ const Contact = () => {
   return (
     <div className="min-h-screen font-bangla bg-gradient-to-br from-blue-50 to-sky-100">
       {/* Hero Section */}
+      <ScrollToTop></ScrollToTop>
       <section className="py-12 lg:py-24">
         <div className="container mx-auto px-4 max-w-7xl">
           <div className="text-center mb-12">

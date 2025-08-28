@@ -4,10 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Calendar, User, Tag, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
+import { Helmet } from "react-helmet";
+import ScrollToTop from "@/hooks/ScrollToTop";
 const Blog = () => {
   const [blogPosts, setBlogPosts] = useState<any[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState("সব");
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -23,15 +24,16 @@ const Blog = () => {
     fetchPosts();
   }, []);
   const handleView = (links) => {
-    const id = links;
-    axios
-      .patch(`${import.meta.env.VITE_BASE_URL}/add_views/${id}`)
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // const id = links;
+    // axios
+    //   .patch(`${import.meta.env.VITE_BASE_URL}/add_views/${id}`)
+    //   .then((res) => {
+    //     console.log(res.data);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    console.log("cliked");
   };
 
   const categories = [
@@ -43,10 +45,21 @@ const Blog = () => {
       ? blogPosts
       : blogPosts.filter((post) => post.category === selectedCategory);
 
+  const [website, setWebsite] = useState([]);
+  useEffect(() => {
+    axios.get(`${import.meta.env.VITE_BASE_URL}/admin_data`).then((res) => {
+      const data = res?.data;
+      setWebsite(data);
+    });
+  }, []);
+
   return (
     <div className="min-h-screen font-bangla bg-gradient-to-br from-blue-50 to-sky-100">
       {/* helmet using for seo---> */}
-
+      <ScrollToTop></ScrollToTop>
+      <Helmet>
+        <title>{String(website[0]?.websiteTitle || "")} | Our Blog</title>
+      </Helmet>
       {/* Hero Section */}
       <section className="py-12 lg:py-24 bg-gradient-to-r from-purple-600 via-blue-600 to-green-500 text-white">
         <div className="container mx-auto px-4 max-w-7xl">
@@ -55,8 +68,8 @@ const Blog = () => {
               Our Blog
             </h1>
             <p className="text-lg sm:text-xl text-white/90 leading-relaxed max-w-2xl mx-auto px-2">
-              Get the latest information, tips, and guidelines on studying
-              abroad from our blog.
+              Get the latest information, tips, and guidelines about higher
+              education abroad from our blog.
             </p>
           </div>
         </div>
@@ -118,9 +131,11 @@ const Blog = () => {
                         <User size={12} />
                         <span>{post.author || "Admin"}</span>
                       </div>
-                      <div className="flex items-center space-x-1">
+                      <div className="flex items-center space-x-1 font-bold">
                         <Calendar size={12} />
-                        <span>{post.date || post.publishDate}</span>
+                        <span className="font-bold">
+                          {post.date || post.publishDate}
+                        </span>
                       </div>
                     </div>
                     <Link to={`/blog/${post._id}`}>

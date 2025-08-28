@@ -39,6 +39,7 @@ import axios from "axios";
 import useGetAllLeadsData from "@/hooks/useGetAllLeadsData";
 import useHeroData from "@/hooks/useHeroData";
 import Loading from "@/components/Loading";
+import ScrollToTop from "@/hooks/ScrollToTop";
 
 type ServiceDoc = {
   _id?: string;
@@ -254,6 +255,7 @@ const Index = () => {
   return (
     <div className="min-h-screen font-bangla bg-gradient-to-br from-purple-50 via-blue-50 to-green-50">
       {/* Hero Section */}
+      <ScrollToTop></ScrollToTop>
       <section className="relative py-20 lg:py-32 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 via-blue-600/10 to-green-500/10"></div>
         <div className="container mx-auto px-4 relative">

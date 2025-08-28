@@ -3,10 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Globe, Award, CheckCircle } from "lucide-react";
 import { Link } from "react-router-dom";
+import ScrollToTop from "@/hooks/ScrollToTop";
 const About = () => {
   return (
     <div className="min-h-screen font-bangla bg-gradient-to-br from-blue-50 to-sky-100">
       {/* Hero Section */}
+      <ScrollToTop></ScrollToTop>
       <section className="py-16 lg:py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Helmet } from "react-helmet";
 import {
   Table,
   TableBody,
@@ -26,9 +27,9 @@ import {
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
-  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
+  AlertDialogFooter,
 } from "@/components/ui/alert-dialog";
 import {
   Plus,
@@ -45,6 +46,7 @@ import {
 const MaterialManagement = () => {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [loadingUpload, setLoadingUpload] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedMaterial, setSelectedMaterial] = useState(null);
@@ -64,14 +66,12 @@ const MaterialManagement = () => {
   });
   const [error, setError] = useState("");
 
-  // Fetch materials on component mount
   useEffect(() => {
     const fetchMaterials = async () => {
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_BASE_URL}/all_metarial_data`
         );
-        // Ensure response.data is an array; fallback to empty array if not
         const fetchedMaterials = Array.isArray(response.data)
           ? response.data
           : [];
@@ -79,7 +79,7 @@ const MaterialManagement = () => {
       } catch (err) {
         console.error("Error fetching materials:", err.response || err.message);
         setError("Failed to fetch materials");
-        setMaterials([]); // Ensure materials is an array even on error
+        setMaterials([]);
       }
     };
     fetchMaterials();
@@ -96,23 +96,81 @@ const MaterialManagement = () => {
     }
   };
 
+  const uploadFile = async (file, type) => {
+    if (!file) {
+      throw new Error("No file selected");
+    }
+    if (file.size > 10 * 1024 * 1024) {
+      throw new Error("File size exceeds 10MB limit");
+    }
+
+    const formData = new FormData();
+    if (type === "image") {
+      formData.append("image", file);
+      try {
+        const imgbbResponse = await axios.post(
+          `https://api.imgbb.com/1/upload?key=a710bf9dd69fd9fc2860512c2c901c31`,
+          formData
+        );
+        return imgbbResponse.data.data.url;
+      } catch (err) {
+        console.error("ImgBB error:", err.response?.data || err.message);
+        throw new Error(
+          err.response?.data?.error?.message ||
+            "Failed to upload image to ImgBB"
+        );
+      }
+    } else if (type === "pdf") {
+      formData.append("reqtype", "fileupload");
+      formData.append("fileToUpload", file);
+      formData.append("time", "72h"); // Set expiration (1h, 12h, 24h, or 72h)
+      try {
+        const litterboxResponse = await axios.post(
+          "https://litterbox.catbox.moe/resources/internals/api.php",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        if (litterboxResponse.data.startsWith("https://")) {
+          return litterboxResponse.data;
+        } else {
+          console.error("Litterbox response:", litterboxResponse.data);
+          throw new Error("Upload failed: Invalid response from Litterbox");
+        }
+      } catch (err) {
+        console.error("Litterbox error:", {
+          status: err.response?.status,
+          data: err.response?.data,
+          message: err.message,
+        });
+        throw new Error(
+          err.response?.data ||
+            err.message ||
+            "Failed to upload PDF to Litterbox"
+        );
+      }
+    } else {
+      throw new Error("Unsupported file type");
+    }
+  };
+
   const handleUpload = async () => {
+    setLoadingUpload(true);
+    setError("");
     try {
       if (!newMaterial.title || !newMaterial.description) {
         setError("Title and description are required");
         return;
       }
-
-      let thumbnail = null;
-      if (newMaterial.file && newMaterial.type === "image") {
-        const formData = new FormData();
-        formData.append("image", newMaterial.file);
-        const imgbbResponse = await axios.post(
-          "https://api.imgbb.com/1/upload?key=a710bf9dd69fd9fc2860512c2c901c31",
-          formData
-        );
-        thumbnail = imgbbResponse.data.data.url;
+      if (!newMaterial.file) {
+        setError("Please select a file to upload");
+        return;
       }
+
+      const fileUrl = await uploadFile(newMaterial.file, newMaterial.type);
 
       const materialData = {
         title: newMaterial.title,
@@ -124,8 +182,8 @@ const MaterialManagement = () => {
         uploadDate: new Date().toISOString().split("T")[0],
         status: newMaterial.status,
         downloads: 0,
-        thumbnail: thumbnail || null,
-        fileUrl: thumbnail || null, // Adjust for PDFs in production
+        thumbnail: fileUrl,
+        fileUrl: fileUrl,
       };
 
       const response = await axios.post(
@@ -144,7 +202,13 @@ const MaterialManagement = () => {
       setError("");
     } catch (err) {
       console.error("Error uploading material:", err.response || err.message);
-      setError(err.response?.data?.message || "Failed to upload material");
+      setError(
+        err.response?.data?.message ||
+          err.message ||
+          "Failed to upload material"
+      );
+    } finally {
+      setLoadingUpload(false);
     }
   };
 
@@ -192,29 +256,27 @@ const MaterialManagement = () => {
   };
 
   const saveEdit = async () => {
+    setError("");
     try {
       if (!editMaterial.title || !editMaterial.description) {
         setError("Title and description are required");
         return;
       }
 
+      let fileUrl = selectedMaterial.fileUrl;
       let thumbnail = selectedMaterial.thumbnail;
-      if (editMaterial.file && selectedMaterial.type === "image") {
-        const formData = new FormData();
-        formData.append("image", editMaterial.file);
-        const imgbbResponse = await axios.post(
-          "https://api.imgbb.com/1/upload?key=a710bf9dd69fd9fc2860512c2c901c31",
-          formData
-        );
-        thumbnail = imgbbResponse.data.data.url;
+
+      if (editMaterial.file) {
+        fileUrl = await uploadFile(editMaterial.file, selectedMaterial.type);
+        thumbnail = fileUrl;
       }
 
       const updatedData = {
         title: editMaterial.title,
         description: editMaterial.description,
         status: editMaterial.status,
-        thumbnail: thumbnail || selectedMaterial.thumbnail,
-        fileUrl: thumbnail || selectedMaterial.fileUrl,
+        thumbnail: thumbnail,
+        fileUrl: fileUrl,
         fileSize: editMaterial.file
           ? `${(editMaterial.file.size / 1024 / 1024).toFixed(1)} MB`
           : selectedMaterial.fileSize,
@@ -242,18 +304,24 @@ const MaterialManagement = () => {
       setError("");
     } catch (err) {
       console.error("Error updating material:", err.response || err.message);
-      setError(err.response?.data?.message || "Failed to update material");
+      setError(
+        err.response?.data?.message ||
+          err.message ||
+          "Failed to update material"
+      );
     }
   };
 
-  // Calculate total downloads with a guard clause
   const totalDownloads = Array.isArray(materials)
     ? materials.reduce((sum, m) => sum + (m.downloads || 0), 0)
     : 0;
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="space-y-6">
       {/* Error Message */}
+      <Helmet>
+        <title>Material Management</title>
+      </Helmet>
       {error && (
         <div className="bg-red-100 text-red-700 p-4 rounded">{error}</div>
       )}
@@ -315,7 +383,11 @@ const MaterialManagement = () => {
                   id="type"
                   value={newMaterial.type}
                   onChange={(e) =>
-                    setNewMaterial({ ...newMaterial, type: e.target.value })
+                    setNewMaterial({
+                      ...newMaterial,
+                      type: e.target.value,
+                      file: null,
+                    })
                   }
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                 >
@@ -332,13 +404,17 @@ const MaterialManagement = () => {
                     Click to upload or drag and drop
                   </p>
                   <p className="text-xs text-gray-500">
-                    PDF, PNG, JPG up to 10MB
+                    {newMaterial.type === "pdf"
+                      ? "PDF up to 10MB"
+                      : "PNG, JPG, JPEG up to 10MB"}
                   </p>
                   <Input
                     id="file"
                     type="file"
                     className=""
-                    accept=".pdf,.png,.jpg,.jpeg"
+                    accept={
+                      newMaterial.type === "pdf" ? ".pdf" : ".png,.jpg,.jpeg"
+                    }
                     onChange={(e) =>
                       setNewMaterial({
                         ...newMaterial,
@@ -371,7 +447,9 @@ const MaterialManagement = () => {
                 >
                   Cancel
                 </Button>
-                <Button onClick={handleUpload}>Upload Material</Button>
+                <Button onClick={handleUpload} disabled={loadingUpload}>
+                  {loadingUpload ? "Uploading..." : "Upload Material"}
+                </Button>
               </div>
             </div>
           </DialogContent>
@@ -388,7 +466,7 @@ const MaterialManagement = () => {
             <FileText className="w-4 h-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{materials.length}</div>
+            <div className="text-2xl font-bold">{materials?.length}</div>
             <p className="text-xs text-muted-foreground">
               Updated in real-time
             </p>
@@ -432,42 +510,42 @@ const MaterialManagement = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {materials.map((material) => (
-                  <TableRow key={material._id}>
+                {materials?.map((material) => (
+                  <TableRow key={material?._id}>
                     <TableCell>
                       <div className="flex items-center space-x-3">
-                        {getFileIcon(material.type)}
+                        {getFileIcon(material?.type)}
                         <div className="min-w-0 flex-1">
                           <div className="font-medium truncate">
-                            {material.title}
+                            {material?.title}
                           </div>
                           <div className="text-sm text-gray-500 truncate">
-                            {material.description}
+                            {material?.description?.slice(0, 40) + "..."}
                           </div>
                         </div>
                       </div>
                     </TableCell>
                     <TableCell>
                       <span className="capitalize text-sm bg-gray-100 px-2 py-1 rounded">
-                        {material.type}
+                        {material?.type}
                       </span>
                     </TableCell>
-                    <TableCell>{material.fileSize}</TableCell>
-                    <TableCell>{material.uploadDate}</TableCell>
+                    <TableCell>{material?.fileSize}</TableCell>
+                    <TableCell>{material?.uploadDate}</TableCell>
                     <TableCell>
                       <span className="text-sm font-medium text-blue-600">
-                        {material.downloads || 0}
+                        {material?.downloads || 0}
                       </span>
                     </TableCell>
                     <TableCell>
                       <span
                         className={`text-sm px-2 py-1 rounded ${
-                          material.status === "Active"
+                          material?.status === "Active"
                             ? "bg-green-100 text-green-800"
                             : "bg-yellow-100 text-yellow-800"
                         }`}
                       >
-                        {material.status}
+                        {material?.status}
                       </span>
                     </TableCell>
                     <TableCell className="text-right">
@@ -509,20 +587,20 @@ const MaterialManagement = () => {
 
           {/* Mobile Card View */}
           <div className="md:hidden space-y-4">
-            {materials.map((material) => (
+            {materials?.map((material) => (
               <div
-                key={material._id}
+                key={material?._id}
                 className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm"
               >
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center space-x-3 flex-1 min-w-0">
-                    {getFileIcon(material.type)}
+                    {getFileIcon(material?.type)}
                     <div className="min-w-0 flex-1">
                       <h3 className="font-medium text-gray-900 truncate">
-                        {material.title}
+                        {material?.title}
                       </h3>
                       <p className="text-sm text-gray-500 line-clamp-2">
-                        {material.description}
+                        {material?.description?.slice(0, 50) + "..."}
                       </p>
                     </div>
                   </div>
@@ -532,25 +610,25 @@ const MaterialManagement = () => {
                   <div className="flex flex-col">
                     <span className="text-gray-500 text-xs">Type</span>
                     <span className="capitalize bg-gray-100 px-2 py-1 rounded text-xs inline-block w-fit">
-                      {material.type}
+                      {material?.type}
                     </span>
                   </div>
                   <div className="flex flex-col">
                     <span className="text-gray-500 text-xs">Size</span>
                     <span className="text-gray-900 text-sm">
-                      {material.fileSize}
+                      {material?.fileSize}
                     </span>
                   </div>
                   <div className="flex flex-col">
                     <span className="text-gray-500 text-xs">Uploaded</span>
                     <span className="text-gray-900 text-sm">
-                      {material.uploadDate}
+                      {material?.uploadDate}
                     </span>
                   </div>
                   <div className="flex flex-col">
                     <span className="text-gray-500 text-xs">Downloads</span>
                     <span className="font-medium text-blue-600 text-sm">
-                      {material.downloads || 0}
+                      {material?.downloads || 0}
                     </span>
                   </div>
                 </div>
@@ -560,12 +638,12 @@ const MaterialManagement = () => {
                     <span className="text-gray-500 text-xs">Status: </span>
                     <span
                       className={`text-xs px-2 py-1 rounded ${
-                        material.status === "Active"
+                        material?.status === "Active"
                           ? "bg-green-100 text-green-800"
                           : "bg-yellow-100 text-yellow-800"
                       }`}
                     >
-                      {material.status}
+                      {material?.status}
                     </span>
                   </div>
                   <div className="flex space-x-2">
@@ -722,13 +800,19 @@ const MaterialManagement = () => {
                     Click to upload or drag and drop
                   </p>
                   <p className="text-xs text-gray-500">
-                    PDF, PNG, JPG up to 10MB
+                    {selectedMaterial.type === "pdf"
+                      ? "PDF up to 10MB"
+                      : "PNG, JPG, JPEG up to 10MB"}
                   </p>
                   <Input
                     id="replace-file"
                     type="file"
                     className=""
-                    accept=".pdf,.png,.jpg,.jpeg"
+                    accept={
+                      selectedMaterial.type === "pdf"
+                        ? ".pdf"
+                        : ".png,.jpg,.jpeg"
+                    }
                     onChange={(e) =>
                       setEditMaterial({
                         ...editMaterial,

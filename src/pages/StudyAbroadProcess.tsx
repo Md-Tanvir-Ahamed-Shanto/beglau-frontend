@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import ScrollToTop from "@/hooks/ScrollToTop";
 
 const StudyAbroadProcess = () => {
   const preDepartureServices = [
@@ -195,6 +196,7 @@ const StudyAbroadProcess = () => {
   return (
     <div className="min-h-screen font-bangla bg-gradient-to-br from-purple-50 via-blue-50 to-green-50">
       {/* Hero Section */}
+      <ScrollToTop></ScrollToTop>
       <section className="py-8 lg:py-16">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8 lg:mb-12">
