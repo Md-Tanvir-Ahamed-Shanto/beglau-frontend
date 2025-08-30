@@ -56,7 +56,7 @@ const AdminLogin: React.FC = () => {
             <div className="w-12 h-12 bg-gradient-to-r from-purple-600 via-blue-600 to-green-500 rounded-lg flex items-center justify-center mx-auto mb-3">
               <GraduationCap className="text-white" size={20} />
             </div>
-            <h1 className="text-xl font-bold text-gray-900">BEGL BD</h1>
+            <h1 className="text-xl font-bold text-gray-900">BEGL AU</h1>
             <p className="text-sm text-gray-500">Admin Panel</p>
           </div>
 
