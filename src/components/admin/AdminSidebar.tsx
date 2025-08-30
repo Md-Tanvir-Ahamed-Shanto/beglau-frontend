@@ -42,7 +42,7 @@ const AdminSidebar = () => {
             <span className="text-white font-bold text-xl">B</span>
           </div>
           <div>
-            <h1 className="text-xl font-bold text-gray-900">BEGL BD</h1>
+            <h1 className="text-xl font-bold text-gray-900">BEGL AU</h1>
             <p className="text-sm text-gray-500">Admin Panel</p>
           </div>
         </div>
