@@ -59,7 +59,7 @@ const Header = () => {
               )}
             </div>
             <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-green-500 bg-clip-text text-transparent">
-              BEGL AU
+              {adminData?.websiteTitle || "BEGL AU"}
             </h1>
           </Link>
 

@@ -309,7 +309,7 @@ const LeadManagement = () => {
             </div>
 
             <div className="text-sm text-gray-600">
-              Showing {filteredLeads.length} of {data?.length} leads
+              Showing {filteredLeads?.length} of {data?.length} leads
             </div>
           </div>
         </CardContent>
@@ -329,7 +329,7 @@ const LeadManagement = () => {
                     Contact Info
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Country
+                    Issue
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Status
@@ -373,7 +373,7 @@ const LeadManagement = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 flex items-center">
-                      <MapPin className="w-3 h-3 mr-1" /> {lead.country}
+                      {lead?.country}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
@@ -415,7 +415,7 @@ const LeadManagement = () => {
 
       {/* Mobile Cards */}
       <div className="lg:hidden space-y-4">
-        {filteredLeads.map((lead, index) => (
+        {filteredLeads?.map((lead, index) => (
           <Card key={index}>
             <CardContent className="p-4">
               <div className="flex items-start justify-between mb-3">
@@ -424,39 +424,38 @@ const LeadManagement = () => {
                     <User className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <h3 className="font-medium text-gray-900">{lead.name}</h3>
+                    <h3 className="font-medium text-gray-900">{lead?.name}</h3>
                     <p className="text-sm text-gray-500">ID: #{lead?.id}</p>
                   </div>
                 </div>
                 <span
                   className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(
-                    lead.status
+                    lead?.status
                   )}`}
                 >
-                  {getStatusIcon(lead.status)}
-                  {lead.status}
+                  {getStatusIcon(lead?.status)}
+                  {lead?.status}
                 </span>
               </div>
               <div className="space-y-2 mb-4">
                 <div className="flex items-center text-sm text-gray-600">
                   <Phone className="w-3 h-3 mr-2" />
-                  {lead.phone}
+                  {lead?.phone}
                 </div>
                 <div className="flex items-center text-sm text-gray-600">
                   <Mail className="w-3 h-3 mr-2" />
-                  {lead.email}
+                  {lead?.email}
                 </div>
                 <div className="flex items-center text-sm text-gray-600">
-                  <MapPin className="w-3 h-3 mr-2" />
-                  {lead.country}
+                  {lead?.country}
                 </div>
                 <div className="flex items-center text-sm text-gray-600">
                   <User className="w-3 h-3 mr-2" />
-                  {lead.counselor}
+                  {lead?.counselor}
                 </div>
                 <div className="flex items-center text-sm text-gray-600">
                   <Calendar className="w-3 h-3 mr-2" />
-                  {lead.dateSubmitted}
+                  {lead?.dateSubmitted}
                 </div>
               </div>
               <div className="flex items-center justify-end space-x-2 pt-3 border-t border-gray-100">

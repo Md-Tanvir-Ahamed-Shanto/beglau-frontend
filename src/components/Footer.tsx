@@ -45,7 +45,9 @@ const Footer = () => {
                   <span>No Logo</span>
                 )}
               </div>
-              <h3 className="text-xl font-bold">BEGL AU</h3>
+              <h3 className="text-xl font-bold">
+                {footerData?.websiteTitle || "BEGL AU"}
+              </h3>
             </Link>
             <p className="text-gray-300 leading-relaxed mb-4">
               {footerData?.footerDescription ||

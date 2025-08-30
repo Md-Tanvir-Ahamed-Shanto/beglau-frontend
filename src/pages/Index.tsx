@@ -386,7 +386,7 @@ const Index = () => {
                       htmlFor="country"
                       className="text-gray-700 font-medium"
                     >
-                      Which country do you want to go to?
+                      How Can We Help You?
                     </Label>
                     <Select
                       value={formData.country}
@@ -398,13 +398,39 @@ const Index = () => {
                       }
                     >
                       <SelectTrigger className="mt-2 text-lg py-3 border-2 focus:border-purple-500">
-                        <SelectValue placeholder="Select Country" />
+                        <SelectValue placeholder="Select Your Issues" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="australia">Australia</SelectItem>
-                        <SelectItem value="uk">UK</SelectItem>
-                        <SelectItem value="malaysia">Malaysia</SelectItem>
-                        <SelectItem value="newzealand">New Zealand</SelectItem>
+                        <SelectItem value="Airport Pickup">
+                          Airport Pickup
+                        </SelectItem>
+                        <SelectItem value="SIM & Connectivity">
+                          SIM & Connectivity
+                        </SelectItem>
+                        <SelectItem value="Currency & Banking">
+                          Currency & Banking
+                        </SelectItem>
+                        <SelectItem value="Accommodation Setup">
+                          Accommodation Setup
+                        </SelectItem>
+                        <SelectItem value="Orientation & Guidance">
+                          Orientation & Guidance
+                        </SelectItem>
+                        <SelectItem value="Course & Academic Support">
+                          Course & Academic Support
+                        </SelectItem>
+                        <SelectItem value="Healthcare & Insurance">
+                          Healthcare & Insurance
+                        </SelectItem>
+                        <SelectItem value="Cultural & Social Support">
+                          Cultural & Social Support
+                        </SelectItem>
+                        <SelectItem value="Mentorship & Emotional Support">
+                          Mentorship & Emotional Support
+                        </SelectItem>
+                        <SelectItem value="Part-time Job / Internship Help">
+                          Part-time Job / Internship Help
+                        </SelectItem>
                         <SelectItem value="other">Other</SelectItem>
                       </SelectContent>
                     </Select>

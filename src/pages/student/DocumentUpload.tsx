@@ -16,6 +16,8 @@ import useGetAllLeadsData from "@/hooks/useGetAllLeadsData";
 import Loading from "@/components/Loading";
 
 const IMGBB_API_KEY = "67dc86d727e90b5175d7d74b3119fbcb";
+const LITTERBOX_URL =
+  "https://litterbox.catbox.moe/resources/internals/api.php";
 
 const StudentDocumentUpload = () => {
   const { linkId } = useParams();
@@ -26,7 +28,7 @@ const StudentDocumentUpload = () => {
   const [verificationError, setVerificationError] = useState("");
   const [isChecking, setIsChecking] = useState(false);
 
-  // Store uploaded file info with imgbb links
+  // Store uploaded file info with links
   const [documents, setDocuments] = useState<Record<string, any[]>>({});
 
   const { data, isLoading } = useGetAllLeadsData();
@@ -68,7 +70,7 @@ const StudentDocumentUpload = () => {
     }, 500); // reduced timeout for faster response
   };
 
-  // Upload file to Imgbb
+  // Upload image to Imgbb
   const uploadToImgbb = async (file: File) => {
     const formData = new FormData();
     formData.append("image", file);
@@ -80,7 +82,32 @@ const StudentDocumentUpload = () => {
       );
       return response.data.data.url;
     } catch (err) {
-      console.error("Error uploading file:", err);
+      console.error("Error uploading image to ImgBB:", err);
+      return null;
+    }
+  };
+
+  // Upload PDF to Litterbox
+  const uploadToLitterbox = async (file: File) => {
+    const formData = new FormData();
+    formData.append("reqtype", "fileupload");
+    formData.append("fileToUpload", file);
+    formData.append("time", "72h"); // Set expiration (1h, 12h, 24h, or 72h)
+
+    try {
+      const response = await axios.post(LITTERBOX_URL, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      if (response.data.startsWith("https://")) {
+        return response.data;
+      } else {
+        console.error("Litterbox response:", response.data);
+        return null;
+      }
+    } catch (err) {
+      console.error("Error uploading PDF to Litterbox:", err);
       return null;
     }
   };
@@ -94,7 +121,14 @@ const StudentDocumentUpload = () => {
     const uploadedLinks: any[] = [];
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
-      const link = await uploadToImgbb(file);
+      let link = null;
+
+      if (file.name.toLowerCase().endsWith(".pdf")) {
+        link = await uploadToLitterbox(file);
+      } else {
+        link = await uploadToImgbb(file);
+      }
+
       if (link) {
         uploadedLinks.push({
           id: Math.random().toString(36).substr(2, 9),
